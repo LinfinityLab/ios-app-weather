@@ -15,6 +15,7 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var resultLabel: UILabel!
     
     @IBAction func findWeather(sender: AnyObject) {
+        view.endEditing(true)
         
         let url = NSURL(string: "http://www.weather-forecast.com/locations/" + userCityTextField!.text!.stringByReplacingOccurrencesOfString(" ", withString: "-") + "/forecasts/latest")
         
@@ -91,6 +92,9 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func onTap(sender: AnyObject) {
+        view.endEditing(true)
+    }
 
 }
 
