@@ -13,6 +13,11 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var findButton: UIButton!
     @IBOutlet weak var userCityTextField: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var msgLabel: UILabel!
+
+
+    
     
     @IBAction func findWeather(sender: AnyObject) {
         view.endEditing(true)
@@ -52,6 +57,7 @@ class FirstViewController: UIViewController {
                         
                         weather = weatherArray[0]
                         weather = weather.stringByReplacingOccurrencesOfString("&deg;", withString: "º")
+                        self.saveButton.hidden = false
                         
                     } else {
                         urlError = true
@@ -84,7 +90,8 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        saveButton.hidden = true
+        msgLabel.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -96,5 +103,21 @@ class FirstViewController: UIViewController {
         view.endEditing(true)
     }
 
+    @IBAction func saveAction(sender: AnyObject) {
+        if favoredList.contains(userCityTextField.text!.uppercaseString) {
+            msgLabel.text = "You have already saved this city, check it out in Favored."
+            msgLabel.hidden = false
+            
+//            NSAnimationContext.runAnimationGroup({ (context) -> Void in
+//                context.duration = 2
+//                
+//            })
+            
+        } else {
+            favoredList.append(userCityTextField.text!.uppercaseString)
+            msgLabel.text = "Saved"
+            msgLabel.hidden = false
+        }
+    }
 }
 
