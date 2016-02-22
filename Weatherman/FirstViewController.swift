@@ -15,88 +15,91 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var msgLabel: UILabel!
-
-
-    
-    
-    @IBAction func findWeather(sender: AnyObject) {
-        view.endEditing(true)
-        
-        let url = NSURL(string: "http://www.weather-forecast.com/locations/" + userCityTextField!.text!.stringByReplacingOccurrencesOfString(" ", withString: "-") + "/forecasts/latest")
-        
-        let request = NSURLRequest(
-            URL: url!,
-            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
-            timeoutInterval: 10)
-        
-        // Configure session so that completion handler is executed on main UI thread
-        let session = NSURLSession(
-            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
-            delegate: nil,
-            delegateQueue: NSOperationQueue.mainQueue()
-        )
-        
-        
-        
-        if url != nil {
-            let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (dataOrNil, response, error) in
-                
-                var urlError = false
-                var weather = ""
-                
-                let data = dataOrNil
-                if error == nil {
-                    let urlContent = NSString(data: data!, encoding: NSUTF8StringEncoding) as NSString!
-                    
-//                    print(urlContent)
-                    var urlContentArray = urlContent.componentsSeparatedByString("<span class=\"phrase\">")
-                    
-                    if urlContentArray.count > 1 {
-                        
-                        var weatherArray = urlContentArray[1].componentsSeparatedByString("</span>")
-                        
-                        weather = weatherArray[0]
-                        weather = weather.stringByReplacingOccurrencesOfString("&deg;", withString: "º")
-                        self.saveButton.hidden = false
-                        
-                    } else {
-                        urlError = true
-                    }
-                    
-                } else {
-                    urlError = true
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    if urlError == true {
-                        self.showError()
-                    } else {
-                        self.resultLabel.text = weather
-                    }
-                }
-                
-            })
-            
-            task.resume()
-        } else {
-            showError()
-        }
-    }
-    
-    func showError() {
-        resultLabel.text = "Could not find weather for " + userCityTextField.text! + ". Please try agian"
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         saveButton.hidden = true
-        msgLabel.hidden = true
+        msgLabel.alpha = 0
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func findWeather(sender: AnyObject) {
+        view.endEditing(true)
+        
+        if userCityTextField.text == "" {
+            msgLabel.text = "Enter your city..."
+            animateText(msgLabel)
+        } else {
+        
+            let url = NSURL(string: "http://www.weather-forecast.com/locations/" + userCityTextField!.text!.stringByReplacingOccurrencesOfString(" ", withString: "-") + "/forecasts/latest")
+            
+            let request = NSURLRequest(
+                URL: url!,
+                cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+                timeoutInterval: 10)
+            
+            // Configure session so that completion handler is executed on main UI thread
+            let session = NSURLSession(
+                configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+                delegate: nil,
+                delegateQueue: NSOperationQueue.mainQueue()
+            )
+            
+            
+            
+            if url != nil {
+                let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (dataOrNil, response, error) in
+                    
+                    var urlError = false
+                    var weather = ""
+                    
+                    let data = dataOrNil
+                    if error == nil {
+                        let urlContent = NSString(data: data!, encoding: NSUTF8StringEncoding) as NSString!
+                        
+    //                    print(urlContent)
+                        var urlContentArray = urlContent.componentsSeparatedByString("<span class=\"phrase\">")
+                        
+                        if urlContentArray.count > 1 {
+                            
+                            var weatherArray = urlContentArray[1].componentsSeparatedByString("</span>")
+                            
+                            weather = weatherArray[0]
+                            weather = weather.stringByReplacingOccurrencesOfString("&deg;", withString: "º")
+                            self.saveButton.hidden = false
+                            
+                        } else {
+                            urlError = true
+                        }
+                        
+                    } else {
+                        urlError = true
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if urlError == true {
+                            self.showError()
+                        } else {
+                            self.resultLabel.text = weather
+                        }
+                    }
+                    
+                })
+                
+                task.resume()
+            } else {
+                showError()
+            }
+        }
+    }
+    
+    func showError() {
+        resultLabel.text = "Could not find weather for " + userCityTextField.text! + ". Please try agian"
     }
 
     @IBAction func onTap(sender: AnyObject) {
@@ -106,18 +109,26 @@ class FirstViewController: UIViewController {
     @IBAction func saveAction(sender: AnyObject) {
         if favoredList.contains(userCityTextField.text!.uppercaseString) {
             msgLabel.text = "You have already saved this city, check it out in Favored."
-            msgLabel.hidden = false
-            
-//            NSAnimationContext.runAnimationGroup({ (context) -> Void in
-//                context.duration = 2
-//                
-//            })
+            animateText(msgLabel)
             
         } else {
             favoredList.append(userCityTextField.text!.uppercaseString)
             msgLabel.text = "Saved"
-            msgLabel.hidden = false
+            animateText(msgLabel)
         }
+    }
+    
+    func animateText(label : UILabel){
+        UIView.animateWithDuration(1.0, animations: {
+            label.alpha = 1.0
+            }, completion: {
+                (completed : Bool) -> Void in
+                UIView.animateWithDuration(1.0, delay: 2.0, options: UIViewAnimationOptions.CurveLinear, animations: {
+                    label.alpha = 0
+                    }, completion: {(completed : Bool) -> Void in
+                    completed
+                })
+        })
     }
 }
 
