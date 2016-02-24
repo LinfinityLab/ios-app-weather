@@ -16,6 +16,8 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var msgLabel: UILabel!
     
+    var userCity = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -31,11 +33,13 @@ class FirstViewController: UIViewController {
     @IBAction func findWeather(sender: AnyObject) {
         view.endEditing(true)
         
-        if userCityTextField.text == "" {
+        userCity = userCityTextField.text!
+        
+        if userCity == "" {
             msgLabel.text = "Enter your city..."
             animateText(msgLabel)
         } else {
-        
+            
             let url = NSURL(string: "http://www.weather-forecast.com/locations/" + userCityTextField!.text!.stringByReplacingOccurrencesOfString(" ", withString: "-") + "/forecasts/latest")
             
             let request = NSURLRequest(
@@ -85,7 +89,7 @@ class FirstViewController: UIViewController {
                         if urlError == true {
                             self.showError()
                         } else {
-                            self.resultLabel.text = weather
+                            self.resultLabel.text = "Here is weather for \(self.userCity.uppercaseString):\n" + weather
                         }
                     }
                     
@@ -96,10 +100,11 @@ class FirstViewController: UIViewController {
                 showError()
             }
         }
+        userCityTextField.text = ""
     }
     
     func showError() {
-        resultLabel.text = "Could not find weather for " + userCityTextField.text! + ". Please try agian"
+        resultLabel.text = "Could not find weather for " + userCity + ". Please try agian"
     }
 
     @IBAction func onTap(sender: AnyObject) {
@@ -107,16 +112,23 @@ class FirstViewController: UIViewController {
     }
 
     @IBAction func saveAction(sender: AnyObject) {
-        if favoredList.contains(userCityTextField.text!.uppercaseString) {
-            msgLabel.text = "You have already saved this city, check it out in Favored."
-            animateText(msgLabel)
-            
-        } else {
-            favoredList.append(userCityTextField.text!.uppercaseString)
-            msgLabel.text = "Saved"
-            animateText(msgLabel)
-            NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
+        
+        if userCity != "" {
+            if favoredList.contains(userCity.uppercaseString) {
+                msgLabel.text = "You have already saved this city, check it out in Favored."
+                animateText(msgLabel)
+                
+            } else {
+                favoredList.append(userCity.uppercaseString)
+                msgLabel.text = "Saved"
+                animateText(msgLabel)
+                NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
+            }
         }
+        
+        saveButton.hidden = true
+        
+
     }
     
     func animateText(label : UILabel){
