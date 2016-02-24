@@ -12,11 +12,22 @@ var favoredList = [String]()
 
 class SecondViewController: UIViewController, UITableViewDelegate {
 
+    
     @IBOutlet weak var favoredCitiesTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
+        
+        if (NSUserDefaults.standardUserDefaults().objectForKey("array") != nil) {
+            favoredList = NSUserDefaults.standardUserDefaults().objectForKey("array") as! [String]
+        } else {
+            favoredList = [String]()
+            NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
+        }
+        
+        NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
     }
 
     override func didReceiveMemoryWarning() {

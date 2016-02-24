@@ -115,6 +115,7 @@ class FirstViewController: UIViewController {
             favoredList.append(userCityTextField.text!.uppercaseString)
             msgLabel.text = "Saved"
             animateText(msgLabel)
+            NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
         }
     }
     
