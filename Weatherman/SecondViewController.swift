@@ -48,6 +48,15 @@ class SecondViewController: UIViewController, UITableViewDelegate {
         
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            favoredList.removeAtIndex(indexPath.row)
+            NSUserDefaults.standardUserDefaults().setObject(favoredList, forKey: "array")
+            favoredCitiesTable.reloadData()
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         favoredCitiesTable.reloadData()
     }
