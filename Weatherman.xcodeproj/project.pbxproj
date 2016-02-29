@@ -14,6 +14,7 @@
 		A46087D21C76B06900450099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A46087D11C76B06900450099 /* Assets.xcassets */; };
 		A46087D51C76B06900450099 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A46087D31C76B06900450099 /* LaunchScreen.storyboard */; };
 		A46087DD1C76B2CD00450099 /* weatherman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A46087DC1C76B2CD00450099 /* weatherman.jpg */; };
+		A4B5BEF41C83FFF20043CEAE /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B5BEF31C83FFF20043CEAE /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A46087D41C76B06900450099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A46087D61C76B06900450099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A46087DC1C76B2CD00450099 /* weatherman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = weatherman.jpg; sourceTree = "<group>"; };
+		A4B5BEF31C83FFF20043CEAE /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				A46087CC1C76B06900450099 /* SecondViewController.swift */,
 				A46087DC1C76B2CD00450099 /* weatherman.jpg */,
 				A46087CE1C76B06900450099 /* Main.storyboard */,
+				A4B5BEF31C83FFF20043CEAE /* DetailViewController.swift */,
 				A46087D11C76B06900450099 /* Assets.xcassets */,
 				A46087D31C76B06900450099 /* LaunchScreen.storyboard */,
 				A46087D61C76B06900450099 /* Info.plist */,
@@ -146,6 +149,7 @@
 				A46087CD1C76B06900450099 /* SecondViewController.swift in Sources */,
 				A46087C91C76B06900450099 /* AppDelegate.swift in Sources */,
 				A46087CB1C76B06900450099 /* FirstViewController.swift in Sources */,
+				A4B5BEF41C83FFF20043CEAE /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +297,7 @@
 				A46087DB1C76B06900450099 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

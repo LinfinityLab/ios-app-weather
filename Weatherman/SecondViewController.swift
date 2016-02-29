@@ -10,9 +10,9 @@ import UIKit
 
 var favoredList = [String]()
 
-class SecondViewController: UIViewController, UITableViewDelegate {
+class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
+    var chosenCellIndex = 0
     @IBOutlet weak var favoredCitiesTable: UITableView!
     
     override func viewDidLoad() {
@@ -59,6 +59,28 @@ class SecondViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         favoredCitiesTable.reloadData()
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        //let object : AnyObject?
+        chosenCellIndex = indexPath.row
+        
+//        print (indexPath.row)
+
+        performSegueWithIdentifier("detailSegue", sender: self)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "detailSegue" {
+            let detailViewController = segue.destinationViewController as! DetailViewController
+
+       
+            detailViewController.receivedCellIndex = chosenCellIndex
+
+        
+        }
     }
 
 }
